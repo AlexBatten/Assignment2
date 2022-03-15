@@ -19,6 +19,7 @@ public class SMTPConnection {
 
     /* Are we connected? Used in close() to determine what to do. */
     private boolean isConnected = false;
+    private BufferedReader fromServer1;
 
     /* Create an SMTPConnection object. Create the socket and the 
        associated streams. Initialize SMTP connection. */
@@ -73,6 +74,13 @@ public class SMTPConnection {
     /* Send an SMTP command to the server. Check that the reply code is
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
+        toServer.writeBytes(command);
+        String serverMsg = fromServer.readLine();
+        if(parseReply(serverMsg)==rc){
+
+            toServer.writeBytes("CRLF");
+        } else throw new IOException();
+
         /* Fill in */
         /* Write command to server and read reply from server. */
         /* Fill in */
