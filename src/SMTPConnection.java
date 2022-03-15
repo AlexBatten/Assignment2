@@ -26,8 +26,8 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the 
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        connection = new Socket("130.225.170.65",2525);
-        fromServer = new BufferedReader(new InputStreamReader(System.in));
+        connection = new Socket("DIST.bhsi.xyz",2525);
+        fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         toServer = new DataOutputStream(System.out);
 
         /* Fill in */
@@ -105,7 +105,9 @@ public class SMTPConnection {
 
     /* Parse the reply line from the server. Returns the reply code. */
     private int parseReply(String reply) {
-        int i = Integer.parseInt(reply);
+        String[] command = reply.split(" ",2);
+
+        int i = Integer.parseInt(command[0]);
 
         return i;
     }
