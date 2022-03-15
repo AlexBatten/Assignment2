@@ -1,5 +1,7 @@
 import java.net.*;
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -41,7 +43,17 @@ public class SMTPConnection {
 
 	/* SMTP handshake. We need the name of the local machine.
 	   Send the appropriate SMTP handshake command. */
-        String localhost = "127.0.0.1";
+        String localhost = "Unknown";
+        try
+        {
+            InetAddress addr;
+            addr = InetAddress.getLocalHost();
+            localhost = addr.getHostName();
+        }
+        catch (UnknownHostException ex)
+        {
+            System.out.println("Hostname can not be resolved");
+        }
         sendCommand("HELO", 250);
 
         isConnected = true;
