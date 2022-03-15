@@ -40,8 +40,8 @@ public class SMTPConnection {
 
 	/* SMTP handshake. We need the name of the local machine.
 	   Send the appropriate SMTP handshake command. */
-        String localhost = "/* Fill in */";
-        sendCommand( /* Fill in */ );
+        String localhost = "127.0.0.1";
+        sendCommand("HELO", 250);
 
         isConnected = true;
     }
