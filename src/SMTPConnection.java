@@ -24,8 +24,8 @@ public class SMTPConnection {
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
         // connection = /* Fill in */;
-        fromServer = /* Fill in */;
-        toServer =   /* Fill in */;
+        fromServer = new BufferedReader(new InputStreamReader(System.in));
+        toServer = System.out;
 
         /* Fill in */
 	/* Read a line from server and check that the reply code is 220.
@@ -56,7 +56,7 @@ public class SMTPConnection {
     public void close() {
         isConnected = false;
         try {
-            sendCommand( /* Fill in */ );
+            sendCommand("QUIT",221);
             // connection.close();
         } catch (IOException e) {
             System.out.println("Unable to close connection: " + e);
@@ -79,7 +79,9 @@ public class SMTPConnection {
 
     /* Parse the reply line from the server. Returns the reply code. */
     private int parseReply(String reply) {
-        /* Fill in */
+        int i = Integer.parseInt(reply);
+
+        return i;
     }
 
     /* Destructor. Closes the connection if something bad happens. */
