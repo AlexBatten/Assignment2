@@ -24,9 +24,9 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the 
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        // connection = /* Fill in */;
+        connection = new Socket("130.225.170.65",2525);
         fromServer = new BufferedReader(new InputStreamReader(System.in));
-        toServer = System.out;
+        toServer = new DataOutputStream(System.out);
 
         /* Fill in */
         String serverMsg=fromServer.readLine();
@@ -78,7 +78,7 @@ public class SMTPConnection {
         String serverMsg = fromServer.readLine();
         if(parseReply(serverMsg)==rc){
 
-            toServer.writeBytes("CRLF");
+            toServer.writeBytes("\r\n");
         } else throw new IOException();
 
         /* Fill in */

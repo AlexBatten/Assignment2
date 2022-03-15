@@ -81,6 +81,7 @@ public class MailClient extends Frame {
     /* Handler for the Send-button. */
     class SendListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            Envelope envelope;
             System.out.println("Sending mail");
 
             /* Check that we have the local mailserver */
@@ -114,7 +115,7 @@ public class MailClient extends Frame {
 	    /* Create the envelope, open the connection and try to send
 	       the message. */
             try {
-                Envelope envelope = new Envelope(mailMessage,
+                envelope = new Envelope(mailMessage,
                         serverField.getText());
             } catch (UnknownHostException e) {
                 /* If there is an error, do not go further */
