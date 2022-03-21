@@ -30,6 +30,15 @@ public class Converttobase64 {
          return base64;
     }
 
+    public static String toBase64(String string) {
+        String base64 = null;
+        byte[] bytes = string.getBytes();
+        base64=Base64.getEncoder().encodeToString(bytes);
+        return base64;
+    }
+
+
+
     public static String getName(String Picturepath){
         File picture = new File(Picturepath);
 

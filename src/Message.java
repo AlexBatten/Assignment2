@@ -27,7 +27,7 @@ public class Message {
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
-    public Message(String from, String username,String password,String to, String subject, String picture, String text) {
+    public Message(String from, String to, String username, String password, String subject, String picture, String text) {
         /* Remove whitespace */
         From = from.trim();
         To = to.trim();

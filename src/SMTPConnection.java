@@ -1,3 +1,5 @@
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -10,7 +12,7 @@ import java.util.*;
  */
 public class SMTPConnection {
     /* The socket to the server */
-    private Socket connection;
+    private SSLSocket connection;
 
     /* Streams for reading and writing the socket */
     private BufferedReader fromServer;
@@ -26,19 +28,27 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the 
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        connection = new Socket(envelope.DestHost,587);
+        SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        connection = (SSLSocket) factory.createSocket(envelope.DestHost,587);
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         toServer = new DataOutputStream(connection.getOutputStream());
 
         /* Fill in */
+
         String serverMsg=fromServer.readLine();
+        System.out.println(serverMsg);
+
+
 	/* Read a line from server and check that the reply code is 220.
 
 
 	   If not, throw an IOException. */
+
         if(parseReply(serverMsg)==220){
 
         } else throw new IOException();
+
+
         /* Fill in */
 
 	/* SMTP handshake. We need the name of the local machine.
@@ -54,7 +64,7 @@ public class SMTPConnection {
         {
             System.out.println("Hostname can not be resolved");
         }
-        sendCommand("EHLO "+envelope.Sender, 250);
+        sendCommand("EHLO" +localhost, 250);
 
         isConnected = true;
     }
@@ -63,12 +73,11 @@ public class SMTPConnection {
        correct order. No checking for errors, just throw them to the
        caller. */
     public void send(Envelope envelope) throws IOException {
-        sendCommand("STARTTLS",250);
-        sendCommand("AUTH LOGIN",250);
-        sendCommand("-ne "+envelope.Message.username+" | base64",250);
-        sendCommand("-ne "+envelope.Message.password+" | base64",250);
+        sendCommand("AUTH LOGIN ",334);
+        sendCommand(Converttobase64.toBase64(envelope.Message.username),250);
+        sendCommand(Converttobase64.toBase64(envelope.Message.password),250);
         sendCommand("MAIL FROM: <" + envelope.Sender + ">",250);
-        sendCommand("RCPT TO: <" + envelope.Recipient + ">",250);
+        sendCommand("RCPT TO <" + envelope.Recipient + ">",250);
         sendCommand("DATA ", 250);
         sendCommand(envelope.Message + CRLF +".",250);
         /* Fill in */
@@ -95,8 +104,12 @@ public class SMTPConnection {
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
         toServer.writeBytes(command+"\r\n");
+        System.out.print("& "+command+"\r\n");
         String serverMsg = fromServer.readLine();
         System.out.println(serverMsg);
+        while(fromServer.ready()){
+            System.out.println(fromServer.readLine());
+        }
         if(parseReply(serverMsg)==rc){
 
         } else throw new IOException();
