@@ -19,6 +19,10 @@ public class MailClient extends Frame {
     private Button btQuit = new Button("Quit");
     private Label serverLabel = new Label("Local mailserver:");
     private TextField serverField = new TextField("", 40);
+    private Label usernameLabel = new Label("Username:");
+    private TextField usernameField = new TextField("",40);
+    private Label passwordLabel = new Label("Password:");
+    private TextField passwordField = new TextField("",40);
     private Label fromLabel = new Label("From:");
     private TextField fromField = new TextField("", 40);
     private Label toLabel = new Label("To:");
@@ -40,6 +44,8 @@ public class MailClient extends Frame {
 	/* Create panels for holding the fields. To make it look nice,
 	   create an extra panel for holding all the child panels. */
         Panel serverPanel = new Panel(new BorderLayout());
+        Panel usernamePanel = new Panel(new BorderLayout());
+        Panel passwordPanel = new Panel(new BorderLayout());
         Panel fromPanel = new Panel(new BorderLayout());
         Panel toPanel = new Panel(new BorderLayout());
         Panel subjectPanel = new Panel(new BorderLayout());
@@ -47,6 +53,10 @@ public class MailClient extends Frame {
         Panel picturePanel = new Panel(new BorderLayout());
         serverPanel.add(serverLabel, BorderLayout.WEST);
         serverPanel.add(serverField, BorderLayout.CENTER);
+        usernamePanel.add(usernameLabel,BorderLayout.WEST);
+        usernamePanel.add(usernameField,BorderLayout.CENTER);
+        passwordPanel.add(passwordLabel,BorderLayout.WEST);
+        passwordPanel.add(passwordField,BorderLayout.CENTER);
         fromPanel.add(fromLabel, BorderLayout.WEST);
         fromPanel.add(fromField, BorderLayout.CENTER);
         toPanel.add(toLabel, BorderLayout.WEST);
@@ -60,6 +70,8 @@ public class MailClient extends Frame {
 
         Panel fieldPanel = new Panel(new GridLayout(0, 1));
         fieldPanel.add(serverPanel);
+        fieldPanel.add(usernamePanel);
+        fieldPanel.add(passwordPanel);
         fieldPanel.add(fromPanel);
         fieldPanel.add(toPanel);
         fieldPanel.add(subjectPanel);
@@ -115,6 +127,8 @@ public class MailClient extends Frame {
             /* Create the message */
             Message mailMessage = new Message(fromField.getText(),
                     toField.getText(),
+                    usernameField.getText(),
+                    passwordField.getText(),
                     subjectField.getText(),
                     pictureField.getText(),
                     messageText.getText());

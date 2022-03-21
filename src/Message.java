@@ -9,6 +9,10 @@ import java.text.*;
  * @author Jussi Kangasharju
  */
 public class Message {
+    //username and password
+    public String username;
+    public String password;
+
     /* The headers and the body of the message. */
     public String Headers;
     public String Body;
@@ -23,10 +27,12 @@ public class Message {
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
-    public Message(String from, String to, String subject, String picture, String text) {
+    public Message(String from, String username,String password,String to, String subject, String picture, String text) {
         /* Remove whitespace */
         From = from.trim();
         To = to.trim();
+        this.username=username;
+        this.password=password;
         Headers = "From: " + From + CRLF;
         Headers += "To: " + To + CRLF;
         Headers += "Subject: " + subject.trim() + CRLF;
@@ -73,18 +79,24 @@ public class Message {
             System.out.println("Sender address is invalid");
             return false;
         }
+        /*
         if(toat < 1 || (To.length() - toat) <= 1) {
             System.out.println("Recipient address is invalid");
             return false;
         }
+
+         */
         if(fromat != From.lastIndexOf('@')) {
             System.out.println("Sender address is invalid");
             return false;
         }
+        /*
         if(toat != To.lastIndexOf('@')) {
             System.out.println("Recipient address is invalid");
             return false;
         }
+
+         */
         return true;
     }
 

@@ -26,7 +26,7 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the 
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        connection = new Socket("DIST.bhsi.xyz",2525);
+        connection = new Socket(envelope.DestHost,587);
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         toServer = new DataOutputStream(connection.getOutputStream());
 
@@ -54,7 +54,7 @@ public class SMTPConnection {
         {
             System.out.println("Hostname can not be resolved");
         }
-        sendCommand("HELO "+localhost, 250);
+        sendCommand("EHLO "+localhost, 250);
 
         isConnected = true;
     }
@@ -63,9 +63,13 @@ public class SMTPConnection {
        correct order. No checking for errors, just throw them to the
        caller. */
     public void send(Envelope envelope) throws IOException {
+        sendCommand("STARTTLS",220);
+        sendCommand("AUTH LOGIN",250);
+        sendCommand("-ne "+envelope.Message.username+" | base64",250);
+        sendCommand("-ne "+envelope.Message.password+" | base64",250);
         sendCommand("MAIL FROM: <" + envelope.Sender + ">",250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">",250);
-        sendCommand("DATA " + CRLF, 354);
+        sendCommand("DATA ", 354);
         sendCommand(envelope.Message + CRLF +".",250);
         /* Fill in */
 	/* Send all the necessary commands to send a message. Call
