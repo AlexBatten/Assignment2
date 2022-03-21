@@ -37,13 +37,15 @@ public class Message {
                 new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
         Headers += "Date: " + dateString + CRLF;
-        Body = text + "\n";
+        Headers += "MIME-Version: 1.0 \n" +
+                "Content-Type:multipart/mixed;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\""+CRLF;
+        Body= "--KkK170891tpbkKk__FV_KKKkkkjjwq \n"
+                +"Content-Type: text/html; charset=us-ascii\n";
+        Body += text+"\n";
 
         if (!picture.equals("")){
             String base64 = Converttobase64.Convert(picture);
-            Headers += "MIME-Version: 1.0 \n" +
-                    "Content-Type:multipart/mixed;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\"\n" +
-                    "--KkK170891tpbkKk__FV_KKKkkkjjwq \n" +
+            Body += "--KkK170891tpbkKk__FV_KKKkkkjjwq \n" +
                     "Content-Type:application/octet-stream;name="+Converttobase64.getName(picture)+"\n" +
                     "Content-Transfer-Encoding:base64 \n" +
                     "Content-Disposition:attachment;filename=\"" +Converttobase64.getName(picture)+"\"";

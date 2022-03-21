@@ -65,7 +65,8 @@ public class SMTPConnection {
     public void send(Envelope envelope) throws IOException {
         sendCommand("MAIL FROM: <" + envelope.Sender + ">",250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">",250);
-        sendCommand("DATA " + CRLF + envelope.Message + CRLF +".",354);
+        sendCommand("DATA " + CRLF, 354);
+        sendCommand(envelope.Message + CRLF +".",250);
         /* Fill in */
 	/* Send all the necessary commands to send a message. Call
 	   sendCommand() to do the dirty work. Do _not_ catch the
@@ -78,7 +79,7 @@ public class SMTPConnection {
     public void close() {
         isConnected = false;
         try {
-            sendCommand("QUIT",250);
+            sendCommand("QUIT",221);
             connection.close();
         } catch (IOException e) {
             System.out.println("Unable to close connection: " + e);
@@ -91,7 +92,7 @@ public class SMTPConnection {
     private void sendCommand(String command, int rc) throws IOException {
         toServer.writeBytes(command+"\r\n");
         String serverMsg = fromServer.readLine();
-        System.out.println(parseReply(serverMsg));
+        System.out.println(serverMsg);
         if(parseReply(serverMsg)==rc){
 
         } else throw new IOException();
