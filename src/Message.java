@@ -36,19 +36,19 @@ public class Message {
         SimpleDateFormat format =
                 new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
-        Headers += "Date: " + dateString + CRLF;
+        Headers += "Date: " + dateString + "\n";
         Headers += "MIME-Version: 1.0 \n" +
-                "Content-Type:multipart/mixed;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\""+CRLF;
-        Body= "--KkK170891tpbkKk__FV_KKKkkkjjwq \n"
+                "Content-Type:multipart/mixed;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\""+"\n";
+        Headers += "--KkK170891tpbkKk__FV_KKKkkkjjwq \n"
                 +"Content-Type: text/html; charset=us-ascii\n";
         Body += text+"\n";
 
         if (!picture.equals("")){
             String base64 = Converttobase64.Convert(picture);
-            Body += "--KkK170891tpbkKk__FV_KKKkkkjjwq \n" +
+            Headers += "--KkK170891tpbkKk__FV_KKKkkkjjwq \n" +
                     "Content-Type:application/octet-stream;name="+Converttobase64.getName(picture)+"\n" +
                     "Content-Transfer-Encoding:base64 \n" +
-                    "Content-Disposition:attachment;filename=\"" +Converttobase64.getName(picture)+"\"";
+                    "Content-Disposition:attachment;filename=\"" +Converttobase64.getName(picture)+"\n";
             Body += "\n" + base64;
         }
 
