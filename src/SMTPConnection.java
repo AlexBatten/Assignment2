@@ -26,7 +26,7 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the 
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        connection = new Socket("DIST.bhsi.xyz",2525);
+        connection = new Socket("localhost",2525);
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         toServer = new DataOutputStream(connection.getOutputStream());
 
@@ -65,7 +65,7 @@ public class SMTPConnection {
     public void send(Envelope envelope) throws IOException {
         sendCommand("MAIL FROM: <" + envelope.Sender + ">",250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">",250);
-        sendCommand("DATA " + envelope.Message.Headers + CRLF, 354);
+        sendCommand("DATA " + CRLF + envelope.Message + CRLF +".",354);
         sendCommand(envelope.Message.Body + CRLF +".",250);
         /* Fill in */
 	/* Send all the necessary commands to send a message. Call

@@ -31,18 +31,16 @@ public class Message {
         To = to.trim();
         Headers = "From: " + From + CRLF;
         Headers += "To: " + To + CRLF;
-        Headers += "Subject: " + subject.trim() + NL;
+        Headers += "Subject: " + subject.trim() + CRLF;
 
 	/* A close approximation of the required format. Unfortunately
 	   only GMT. */
         SimpleDateFormat format =
                 new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
-
-
-        Headers += "Date: " + dateString + NL;
+        Headers += "Date: " + dateString + CRLF;
         Headers += "MIME-Version: 1.0 \n" +
-                "Content-Type:multipart/alternative;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\""+CRLF;
+                "Content-Type:multipart/alternative;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\"\n";
         Body= "--KkK170891tpbkKk__FV_KKKkkkjjwq\n"
                 +"Content-Type: multipart/related; boundary=\"gc0p4Jq0M2Yt08jU534c0p\"\n"
                 + "--gc0p4Jq0M2Yt08jU534c0p\n"
