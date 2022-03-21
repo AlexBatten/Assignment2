@@ -40,18 +40,18 @@ public class Message {
         String dateString = format.format(new Date());
         Headers += "Date: " + dateString + CRLF;
         Headers += "MIME-Version: 1.0 \n" +
-                "Content-Type:multipart/alternative;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\"\n";
+                "Content-Type:multipart/alternative;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\"\n\n";
         Body= "--KkK170891tpbkKk__FV_KKKkkkjjwq\n"
-                +"Content-Type: multipart/related; boundary=\"gc0p4Jq0M2Yt08jU534c0p\"\n"
+                +"Content-Type: multipart/related; boundary=\"gc0p4Jq0M2Yt08jU534c0p\"\n\n"
                 + "--gc0p4Jq0M2Yt08jU534c0p\n"
                 + "Content-Type: text/html; charset=\"utf-8\"\n"
-                + "Content-Transfer-Encoding: 8bit\n"
+                + "Content-Transfer-Encoding: 8bit\n\n"
                 + "<html>\n"
-                + "<body>\n"
+                + "     <body>\n"
                 + "<p>"+text+"</p>\n"
-                + "<p class=\"image\"> <br><img src=\"cid:picture1\"></p>\n"
-                + "</body>\n"
-                + "</html>\n"
+                + "         <p class=\"image\"> <br><img src=\"cid:picture1\"></p>\n"
+                + "     </body>\n"
+                + "</html>\n\n"
                 + "--gc0p4Jq0M2Yt08jU534c0p\n"
                 + "Content-Type:image/jpg;name=\""+Converttobase64.getName(picture)+"\"\n"
                 + "Content-Transfer-Encoding:base64\n"
@@ -65,7 +65,7 @@ public class Message {
 
             Body += "\n" + base64;
             Body += "\n" + "--gc0p4Jq0M2Yt08jU534c0p--";
-            Body += "\n" + "--KkK170891tpbkKk__FV_KKKkkkjjwq--";
+            Body += "\n\n" + "--KkK170891tpbkKk__FV_KKKkkkjjwq--";
 
         }
 
