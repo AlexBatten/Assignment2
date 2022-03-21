@@ -116,7 +116,9 @@ public class MailClient extends Frame {
             Message mailMessage = new Message(fromField.getText(),
                     toField.getText(),
                     subjectField.getText(),
+                    pictureField.getText(),
                     messageText.getText());
+
 
 	    /* Check that the message is valid, i.e., sender and
 	       recipient addresses look ok. */

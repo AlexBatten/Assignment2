@@ -23,7 +23,7 @@ public class Message {
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
-    public Message(String from, String to, String subject, String text) {
+    public Message(String from, String to, String subject, String picture, String text) {
         /* Remove whitespace */
         From = from.trim();
         To = to.trim();
@@ -37,7 +37,19 @@ public class Message {
                 new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
         Headers += "Date: " + dateString + CRLF;
-        Body = text;
+        Body = text + "\n";
+
+        if (!picture.equals("")){
+            String base64 = Converttobase64.Convert(picture);
+            Headers += "MIME-Version: 1.0 \n" +
+                    "Content-Type:multipart/mixed;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\"\n" +
+                    "--KkK170891tpbkKk__FV_KKKkkkjjwq \n" +
+                    "Content-Type:application/octet-stream;name="+Converttobase64.getName(picture)+"\n" +
+                    "Content-Transfer-Encoding:base64 \n" +
+                    "Content-Disposition:attachment;filename=\"" +Converttobase64.getName(picture)+"\"";
+            Body += "\n" + base64;
+        }
+
     }
 
     /* Two functions to access the sender and recipient. */
