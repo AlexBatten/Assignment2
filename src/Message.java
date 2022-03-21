@@ -20,16 +20,18 @@ public class Message {
 
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
+    private static final String NL = "\n";
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
     public Message(String from, String to, String subject, String picture, String text) {
         /* Remove whitespace */
+        String base64 = Converttobase64.Convert(picture);
         From = from.trim();
         To = to.trim();
         Headers = "From: " + From + CRLF;
         Headers += "To: " + To + CRLF;
-        Headers += "Subject: " + subject.trim() + CRLF;
+        Headers += "Subject: " + subject.trim() + NL;
 
 	/* A close approximation of the required format. Unfortunately
 	   only GMT. */
@@ -37,13 +39,8 @@ public class Message {
                 new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
 
-        if (!picture.equals("")){
-            String base64 = Converttobase64.Convert(picture);
-        }
 
-
-
-        Headers += "Date: " + dateString + CRLF;
+        Headers += "Date: " + dateString + NL;
         Headers += "MIME-Version: 1.0 \n" +
                 "Content-Type:multipart/alternative;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\""+CRLF;
         Body= "--KkK170891tpbkKk__FV_KKKkkkjjwq\n"
@@ -54,9 +51,9 @@ public class Message {
                 + "<html>\n"
                 + "<body>\n"
                 + "<p>"+text+"</p>\n"
-                + "<p class \"image\"> <br><img src=\"cid:picture1\"></p>"
-                + "</body>"
-                + "</html>"
+                + "<p class=\"image\"> <br><img src=\"cid:picture1\"></p>\n"
+                + "</body>\n"
+                + "</html>\n"
                 + "--gc0p4Jq0M2Yt08jU534c0p\n"
                 + "Content-Type:image/jpg;name=\""+Converttobase64.getName(picture)+"\"\n"
                 + "Content-Transfer-Encoding:base64\n"
@@ -67,7 +64,7 @@ public class Message {
 
 
         if (!picture.equals("")){
-            String base64 = Converttobase64.Convert(picture);
+
             Body += "\n" + base64;
             Body += "\n" + "--gc0p4Jq0M2Yt08jU534c0p--";
             Body += "\n" + "--KkK170891tpbkKk__FV_KKKkkkjjwq--";

@@ -27,7 +27,7 @@ public class Converttobase64 {
             System.out.println("Wrong input");
             e.printStackTrace();
         }
-         return base64;
+        return base64;
     }
 
     public static String getName(String Picturepath){
