@@ -54,7 +54,7 @@ public class SMTPConnection {
         {
             System.out.println("Hostname can not be resolved");
         }
-        sendCommand("EHLO "+localhost, 250);
+        sendCommand("EHLO "+envelope.Sender, 250);
 
         isConnected = true;
     }
@@ -63,13 +63,13 @@ public class SMTPConnection {
        correct order. No checking for errors, just throw them to the
        caller. */
     public void send(Envelope envelope) throws IOException {
-        sendCommand("STARTTLS",220);
+        sendCommand("STARTTLS",250);
         sendCommand("AUTH LOGIN",250);
         sendCommand("-ne "+envelope.Message.username+" | base64",250);
         sendCommand("-ne "+envelope.Message.password+" | base64",250);
         sendCommand("MAIL FROM: <" + envelope.Sender + ">",250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">",250);
-        sendCommand("DATA ", 354);
+        sendCommand("DATA ", 250);
         sendCommand(envelope.Message + CRLF +".",250);
         /* Fill in */
 	/* Send all the necessary commands to send a message. Call
@@ -113,7 +113,7 @@ public class SMTPConnection {
 
     /* Parse the reply line from the server. Returns the reply code. */
     private int parseReply(String reply) {
-        String[] command = reply.split(" ",2);
+        String[] command = reply.replaceAll("-"," ").split(" ",2);
 
         int i = Integer.parseInt(command[0]);
 
