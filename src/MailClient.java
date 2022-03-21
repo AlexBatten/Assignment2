@@ -17,7 +17,6 @@ public class MailClient extends Frame {
     private Button btSend = new Button("Send");
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
-    private Button picture = new Button("Attach photo");
     private Label serverLabel = new Label("Local mailserver:");
     private TextField serverField = new TextField("", 40);
     private Label fromLabel = new Label("From:");
@@ -64,6 +63,7 @@ public class MailClient extends Frame {
         fieldPanel.add(fromPanel);
         fieldPanel.add(toPanel);
         fieldPanel.add(subjectPanel);
+        fieldPanel.add(picturePanel);
 
 	/* Create a panel for the buttons and add listeners to the
 	   buttons. */
