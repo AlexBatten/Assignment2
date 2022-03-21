@@ -1,3 +1,5 @@
+import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 import java.io.*;
 import java.net.*;
 import java.awt.*;
@@ -15,6 +17,7 @@ public class MailClient extends Frame {
     private Button btSend = new Button("Send");
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
+    private Button picture = new Button("Attach photo");
     private Label serverLabel = new Label("Local mailserver:");
     private TextField serverField = new TextField("", 40);
     private Label fromLabel = new Label("From:");
@@ -25,6 +28,8 @@ public class MailClient extends Frame {
     private TextField subjectField = new TextField("", 40);
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea(10, 40);
+    private Label pictureLabel = new Label("Photo path:");
+    private TextField pictureField = new TextField("",40);
 
     /**
      * Create a new MailClient window with fields for entering all
@@ -40,6 +45,7 @@ public class MailClient extends Frame {
         Panel toPanel = new Panel(new BorderLayout());
         Panel subjectPanel = new Panel(new BorderLayout());
         Panel messagePanel = new Panel(new BorderLayout());
+        Panel picturePanel = new Panel(new BorderLayout());
         serverPanel.add(serverLabel, BorderLayout.WEST);
         serverPanel.add(serverField, BorderLayout.CENTER);
         fromPanel.add(fromLabel, BorderLayout.WEST);
@@ -48,8 +54,11 @@ public class MailClient extends Frame {
         toPanel.add(toField, BorderLayout.CENTER);
         subjectPanel.add(subjectLabel, BorderLayout.WEST);
         subjectPanel.add(subjectField, BorderLayout.CENTER);
+        picturePanel.add(pictureLabel,BorderLayout.WEST);
+        picturePanel.add(pictureField,BorderLayout.CENTER);
         messagePanel.add(messageLabel, BorderLayout.NORTH);
         messagePanel.add(messageText, BorderLayout.CENTER);
+
         Panel fieldPanel = new Panel(new GridLayout(0, 1));
         fieldPanel.add(serverPanel);
         fieldPanel.add(fromPanel);
@@ -62,9 +71,11 @@ public class MailClient extends Frame {
         btSend.addActionListener(new SendListener());
         btClear.addActionListener(new ClearListener());
         btQuit.addActionListener(new QuitListener());
+
         buttonPanel.add(btSend);
         buttonPanel.add(btClear);
         buttonPanel.add(btQuit);
+
 
         /* Add, pack, and show. */
         add(fieldPanel, BorderLayout.NORTH);
@@ -77,6 +88,7 @@ public class MailClient extends Frame {
     static public void main(String argv[]) {
         new MailClient();
     }
+
 
     /* Handler for the Send-button. */
     class SendListener implements ActionListener {
