@@ -36,20 +36,42 @@ public class Message {
         SimpleDateFormat format =
                 new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
-        Headers += "Date: " + dateString + CRLF;
-        Headers += "MIME-Version: 1.0 \n" +
-                "Content-Type:multipart/mixed;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\""+CRLF;
-        Body= "--KkK170891tpbkKk__FV_KKKkkkjjwq \n"
-                +"Content-Type: text/html; charset=us-ascii\n";
-        Body += text+"\n";
 
         if (!picture.equals("")){
             String base64 = Converttobase64.Convert(picture);
-            Body += "--KkK170891tpbkKk__FV_KKKkkkjjwq \n" +
-                    "Content-Type:application/octet-stream;name="+Converttobase64.getName(picture)+"\n" +
-                    "Content-Transfer-Encoding:base64 \n" +
-                    "Content-Disposition:attachment;filename=\"" +Converttobase64.getName(picture)+"\"";
+        }
+
+
+
+        Headers += "Date: " + dateString + CRLF;
+        Headers += "MIME-Version: 1.0 \n" +
+                "Content-Type:multipart/alternative;boundary=\"KkK170891tpbkKk__FV_KKKkkkjjwq\""+CRLF;
+        Body= "--KkK170891tpbkKk__FV_KKKkkkjjwq\n"
+                +"Content-Type: multipart/related; boundary=\"gc0p4Jq0M2Yt08jU534c0p\"\n"
+                + "--gc0p4Jq0M2Yt08jU534c0p\n"
+                + "Content-Type: text/html; charset=\"utf-8\"\n"
+                + "Content-Transfer-Encoding: 8bit\n"
+                + "<html>\n"
+                + "<body>\n"
+                + "<p>"+text+"</p>\n"
+                + "<p class \"image\"> <br><img src=\"cid:picture1\"></p>"
+                + "</body>"
+                + "</html>"
+                + "--gc0p4Jq0M2Yt08jU534c0p\n"
+                + "Content-Type:image/jpg;name=\""+Converttobase64.getName(picture)+"\"\n"
+                + "Content-Transfer-Encoding:base64\n"
+                + "Content-Disposition: inline; filename=\""+Converttobase64.getName(picture)+"\"\n"
+                + "Content-Location: picture.jpg: "+Converttobase64.getName(picture)+"\n"
+                + "Content-ID: <picture1>\n";
+
+
+
+        if (!picture.equals("")){
+            String base64 = Converttobase64.Convert(picture);
             Body += "\n" + base64;
+            Body += "\n" + "--gc0p4Jq0M2Yt08jU534c0p--";
+            Body += "\n" + "--KkK170891tpbkKk__FV_KKKkkkjjwq--";
+
         }
 
     }

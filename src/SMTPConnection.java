@@ -65,8 +65,8 @@ public class SMTPConnection {
     public void send(Envelope envelope) throws IOException {
         sendCommand("MAIL FROM: <" + envelope.Sender + ">",250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">",250);
-        sendCommand("DATA " + CRLF, 354);
-        sendCommand(envelope.Message + CRLF +".",250);
+        sendCommand("DATA " + envelope.Message.Headers + CRLF, 354);
+        sendCommand(envelope.Message.Body + CRLF +".",250);
         /* Fill in */
 	/* Send all the necessary commands to send a message. Call
 	   sendCommand() to do the dirty work. Do _not_ catch the
