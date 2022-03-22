@@ -16,7 +16,7 @@ public class SMTPConnection {
 
     /* Streams for reading and writing the socket */
     private BufferedReader fromServer;
-    private DataOutputStream toServer;
+    private PrintWriter toServer;
 
     private static final int SMTP_PORT = 25;
     private static final String CRLF = "\r\n";
@@ -29,9 +29,10 @@ public class SMTPConnection {
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-        connection = (SSLSocket) factory.createSocket(envelope.DestHost,587);
+        connection = (SSLSocket) factory.createSocket(InetAddress.getByName("smtp.gmail.com"),587);
+
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        toServer = new DataOutputStream(connection.getOutputStream());
+        toServer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
 
         /* Fill in */
 
@@ -103,7 +104,7 @@ public class SMTPConnection {
     /* Send an SMTP command to the server. Check that the reply code is
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
-        toServer.writeBytes(command+"\r\n");
+        toServer.write(command+"\r\n");
         System.out.print("& "+command+"\r\n");
         String serverMsg = fromServer.readLine();
         System.out.println(serverMsg);
